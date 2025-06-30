@@ -160,8 +160,7 @@ public class KartService {
 		
 		orderRepository.save(order);
 		
-		clearCart(customerId);
-		
+		cartRepository.delete(getCart.get());
 			
 		return true;
 	}
