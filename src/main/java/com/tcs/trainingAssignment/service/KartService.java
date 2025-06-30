@@ -133,32 +133,37 @@ public class KartService {
 
 	}
 	
-//	public boolean buyingProducts(Long customerId) {
-//		double totalAmount = 0;
-//		List<OrderItem> getOrderItem = new ArrayList<>();
-//		Optional<User> user = userRepository.findById(customerId);
-//		if (user.isEmpty())
-//			return false;
-//		Optional<Cart> getCart = cartRepository.findByUser(user);
-//		
-//		Orders order = new Orders();
-//		OrderItem orderItem = new OrderItem();
-//		
-//		order.setUser(user.get());
-//		
-//		for(CartItem c : getCart.get().getCartItems()) {
-//			totalAmount = c.getProduct().getPrice()*c.getQuantity() + totalAmount;
-//			orderItem.setProduct(c.getProduct());
-//			orderItem.setQuantity(c.getQuantity());
-//			orderItem.setOrders(order);
-//		
-//			getOrderItem.add(orderItem);
-//		}
-//		order.setOrderItems(getOrderItem);
-//		order.setTotalAmount(totalAmount);
-//		
-//		orderRepository.save(order);
-//		return true;
-//	}
+	public boolean buyProducts(Long customerId) {
+		double totalAmount = 0;
+		List<OrderItem> orderItems = new ArrayList<>();
+		Optional<User> user = userRepository.findById(customerId);
+		if (user.isEmpty())
+			return false;
+		Optional<Cart> getCart = cartRepository.findByUser(user);
+		if(getCart.isEmpty())return false;
+		Orders order = new Orders();
+		
+		
+		order.setUser(user.get());
+		
+		for(CartItem c : getCart.get().getCartItems()) {
+			totalAmount = c.getProduct().getPrice()*c.getQuantity() + totalAmount;
+			OrderItem orderItem = new OrderItem();
+			orderItem.setProduct(c.getProduct());
+			orderItem.setQuantity(c.getQuantity());
+			orderItem.setOrders(order);
+		
+			orderItems.add(orderItem);
+		}
+		order.setOrderItems(orderItems);
+		order.setTotalAmount(totalAmount);
+		
+		orderRepository.save(order);
+		
+		clearCart(customerId);
+		
+			
+		return true;
+	}
 
 }

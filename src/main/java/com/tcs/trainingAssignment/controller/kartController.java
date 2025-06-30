@@ -66,11 +66,11 @@ public class kartController {
 		
 	}
 	
-//	@PostMapping("/karts/orders/{customerId}")
-//	ResponseEntity<String> placeOrder(@PathVariable Long customerId) {
-//		boolean result = kartService.buyingProducts(customerId);
-//		if(result)
-//			return ResponseEntity.ok().body("Order Placed Sccessfully");
-//		 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order  cannot be placed!!");
-//	}
+	@PostMapping("/karts/orders/{customerId}")
+	ResponseEntity<String> placeOrder(@PathVariable Long customerId) {
+		boolean result = kartService.buyProducts(customerId);
+		if(result)
+			return ResponseEntity.ok().body("Order Placed Sccessfully");
+		 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order  cannot be placed!!");
+	}
 	}
